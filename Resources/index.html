@@ -1,0 +1,117 @@
+<!DOCTYPE html> 
+<html> 
+  <head> 
+    <title>Cornwall</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+    <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
+    <script src="Cornwall.js"></script>
+    <script>
+      var web_popup = function(a) {
+        alert("Returned 'a' from Native: " + a.a);
+      };
+
+      $(document).ready(function() {
+        $('#native').click(function() {
+          Cornwall.execute(function() {
+            Titanium.Contacts.showContacts({});
+          });
+
+        });
+
+        $('#fall').click(function() {
+          Cornwall.execute(function() {
+            var v = Ti.UI.createView({
+              height: 40,
+              width: 40,
+              backgroundColor: 'red',
+              top: 0,
+              left: 10
+            });
+            __window.add(v);
+            var t = Ti.UI.create2DMatrix().rotate(720);
+            v.animate( {
+              top: 500,
+              left: 60,
+              transform: t,
+              //opacity: 0,
+              duration: 5000
+              }, function() {
+              __window.remove(v);
+            });
+          });
+        });
+
+        $('#tabgroup').click(function() {
+          Cornwall.execute(function() {
+            var tab = Ti.UI.createTabGroup();
+
+            //create app tabs
+            var win1 = Ti.UI.createWindow({title: 'Home',
+              backgroundColor: 'white'}),
+            win2 = Ti.UI.createWindow({title: 'Settings',
+              backgroundColor: 'white'});
+            var button = Ti.UI.createButton({
+              title: "Close"
+            });
+            button.addEventListener("click", function() {
+              tab.close();
+            });
+            win1.leftNavButton = button;
+
+            var tab1 = Ti.UI.createTab({
+              title: "Home",
+              //icon: '/images/KS_nav_ui.png',
+              window: win1
+            });
+
+            var tab2 = Ti.UI.createTab({
+              title: "Settings",
+              //icon: '/images/KS_nav_views.png',
+              window: win2
+            });
+
+            tab.addTab(tab1);
+            tab.addTab(tab2);
+            tab.open();
+          });
+        });
+
+        $('#bounce').click(function() {
+          Cornwall.execute(function() {
+            alert("Hello From Native");
+            Cornwall.callback(web_popup)({a:  "A"});
+          });
+        });
+      });
+    </script>
+  </head> 
+  <body> 
+
+    <div data-role="page">
+
+      <div data-role="header">
+        <h1>Cornwall</h1>
+      </div><!-- /header -->
+
+      <div data-role="content">	
+        <p>Welcome to <b>Cornwall</b> - a different way of using Appcelerator's Titanium. It
+        uses a webview centric design while exposing the full native
+        Titanium API.</p>
+        <p>Any <code>cornwall://</code> links from your browser will be
+        launched in Cornwall to give you the ability to execute native code
+        from the web.</p>
+        <p>Try some of the following examples</p>
+        <ul data-role="listview" data-inset="true" >
+          <li><a href="#" id="native">Launch Native Contacts</a></li>
+          <li><a href="#" id="fall">Falling Native View</a></li>
+          <li><a href="#" id="tabgroup">Native Tab Group</a></li>
+          <li><a href="#" id="bounce">To Cornwall and Back Again</a></li>
+        </ul>
+      </div><!-- /content -->
+
+    </div><!-- /page -->
+
+  </body>
+</html>

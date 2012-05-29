@@ -1,0 +1,9 @@
+tmp
+build
+build.log
+Makefile
+bin
+certs
+.project
+.settings
+.DS_Store

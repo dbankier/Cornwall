@@ -1,0 +1,51 @@
+<!DOCTYPE html> 
+<html> 
+  <head> 
+    <title>Cornwall</title> 
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+    <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
+    <script src="Cornwall.js"></script>
+
+    <script>
+      $(document).ready(function() {
+          Cornwall.execute(function() {
+            var tab = Ti.UI.createTabGroup();
+
+            //create app tabs
+            var win1 = Ti.UI.createWindow({title: 'Home',
+              backgroundColor: 'white'}),
+            win2 = Ti.UI.createWindow({title: 'Settings',
+              backgroundColor: 'white'});
+            var button = Ti.UI.createButton({
+              title: "Close"
+            });
+            button.addEventListener("click", function() {
+              tab.close();
+            });
+            win1.leftNavButton = button;
+
+            var tab1 = Ti.UI.createTab({
+              title: "Home",
+              //icon: '/images/KS_nav_ui.png',
+              window: win1
+            });
+
+            var tab2 = Ti.UI.createTab({
+              title: "Settings",
+              //icon: '/images/KS_nav_views.png',
+              window: win2
+            });
+
+            tab.addTab(tab1);
+            tab.addTab(tab2);
+            tab.open();
+          });
+      });
+    </script>
+  </head> 
+  <body> 
+  </body>
+</html>
+
