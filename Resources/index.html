@@ -6,13 +6,15 @@
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
     <script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
-    <script src="Cornwall.js"></script>
+    <script src="lib/Cornwall.js"></script>
     <script>
       var web_popup = function(a) {
         alert("Returned 'a' from Native: " + a.a);
       };
 
       $(document).ready(function() {
+
+        // Simple native command execution
         $('#native').click(function() {
           Cornwall.execute(function() {
             Titanium.Contacts.showContacts({});
@@ -20,6 +22,7 @@
 
         });
 
+        // Simple, but with animated native views.
         $('#fall').click(function() {
           Cornwall.execute(function() {
             var v = Ti.UI.createView({
@@ -29,7 +32,7 @@
               top: 0,
               left: 10
             });
-            __window.add(v);
+            __web.parent.add(v);
             var t = Ti.UI.create2DMatrix().rotate(720);
             v.animate( {
               top: 500,
@@ -38,11 +41,12 @@
               //opacity: 0,
               duration: 5000
               }, function() {
-              __window.remove(v);
+              __web.parent.remove(v);
             });
           });
         });
 
+        // A little more detailed.
         $('#tabgroup').click(function() {
           Cornwall.execute(function() {
             var tab = Ti.UI.createTabGroup();
@@ -78,11 +82,21 @@
           });
         });
 
+        // Example with Callback
         $('#bounce').click(function() {
           Cornwall.execute(function() {
             alert("Hello From Native");
             Cornwall.callback(web_popup)({a:  "A"});
           });
+        });
+
+        // Passing Variables
+        var start = new Date();
+        $('#variables').click(function() {
+          var text = 'Hello World';
+          Cornwall.execute(function(start, text) {
+            alert("Started: " + start + "\nText: " + text);
+          },start, text);
         });
       });
     </script>
@@ -108,6 +122,8 @@
           <li><a href="#" id="fall">Falling Native View</a></li>
           <li><a href="#" id="tabgroup">Native Tab Group</a></li>
           <li><a href="#" id="bounce">To Cornwall and Back Again</a></li>
+          <li><a href="#" id="variables">Passing Local Variables</a></li>
+
         </ul>
       </div><!-- /content -->
 
