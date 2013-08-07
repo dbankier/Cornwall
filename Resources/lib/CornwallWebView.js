@@ -18,7 +18,7 @@ function CornwallWebView(params) {
 
   function evalFn(o) {
     try{ 
-      eval("(" + o.fn.replace(/Cornwall.callback\(([^\)]*)\)/g, "(function(o) { __web.evalJS('$1(' + JSON.stringify(o) + ');');})") + ")("+ JSON.stringify(o.args).substring(1).replace("]","") +")");
+      eval("(" + o.fn.replace(/Cornwall.callback\(([^\)]*)\)/g, "(function(o) { __web.evalJS('$1(' + JSON.stringify(o) + ');');})") + ")("+ JSON.stringify(o.args).slice(1,-1) +")");
     } catch (e) {
       alert(e);
     }
